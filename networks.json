@@ -1,0 +1,8 @@
+{
+  "fuse": {
+    "LiquidStakingProxy": {
+      "address": "0xa3dc222eC847Aac61FB6910496295bF344Ea46be",
+      "startBlock": 20231259
+    }
+  }
+}

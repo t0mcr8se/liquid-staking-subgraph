@@ -1,0 +1,81 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: LiquidStakingProxy
+    network: fuse
+    source:
+      address: "0xa3dc222eC847Aac61FB6910496295bF344Ea46be"
+      abi: LiquidStakingProxy
+      startBlock: 20231259
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - AddedValidator
+        - AdminChanged
+        - BeaconUpgraded
+        - Burned
+        - ChangedProtocolFee
+        - ChangedValidatorIndex
+        - Deposited
+        - DisabledSafeguard
+        - DistributedProtocolFee
+        - Initialized
+        - NewSystemStakeLimit
+        - OwnershipTransferred
+        - Paused
+        - ReenabledSafeguard
+        - RemovedValidator
+        - ReplacedValidator
+        - Unpaused
+        - UpdatedPriceRatio
+        - Upgraded
+        - Withdrawn
+      abis:
+        - name: LiquidStakingProxy
+          file: ./abis/LiquidStakingProxy.json
+      eventHandlers:
+        - event: AddedValidator(indexed address,address)
+          handler: handleAddedValidator
+        - event: AdminChanged(address,address)
+          handler: handleAdminChanged
+        - event: BeaconUpgraded(indexed address)
+          handler: handleBeaconUpgraded
+        - event: Burned(uint256,address)
+          handler: handleBurned
+        - event: ChangedProtocolFee(indexed address,uint256)
+          handler: handleChangedProtocolFee
+        - event: ChangedValidatorIndex(uint256,uint256)
+          handler: handleChangedValidatorIndex
+        - event: Deposited(indexed address,uint256,uint256)
+          handler: handleDeposited
+        - event: DisabledSafeguard(indexed address)
+          handler: handleDisabledSafeguard
+        - event: DistributedProtocolFee(indexed address,uint256,uint256,uint256)
+          handler: handleDistributedProtocolFee
+        - event: Initialized(uint8)
+          handler: handleInitialized
+        - event: NewSystemStakeLimit(uint256,uint256)
+          handler: handleNewSystemStakeLimit
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Paused()
+          handler: handlePaused
+        - event: ReenabledSafeguard(indexed address,uint256)
+          handler: handleReenabledSafeguard
+        - event: RemovedValidator(address,indexed address)
+          handler: handleRemovedValidator
+        - event: ReplacedValidator(address,address)
+          handler: handleReplacedValidator
+        - event: Unpaused()
+          handler: handleUnpaused
+        - event: UpdatedPriceRatio(uint256,uint256,uint256)
+          handler: handleUpdatedPriceRatio
+        - event: Upgraded(indexed address)
+          handler: handleUpgraded
+        - event: Withdrawn(indexed address,uint256,uint256,uint256)
+          handler: handleWithdrawn
+      file: ./src/liquid-staking-proxy.ts

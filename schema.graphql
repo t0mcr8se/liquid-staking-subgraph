@@ -1,0 +1,179 @@
+type AddedValidator @entity(immutable: true) {
+  id: Bytes!
+  admin: Bytes! # address
+  validatorAdded: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type AdminChanged @entity(immutable: true) {
+  id: Bytes!
+  previousAdmin: Bytes! # address
+  newAdmin: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type BeaconUpgraded @entity(immutable: true) {
+  id: Bytes!
+  beacon: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Burned @entity(immutable: true) {
+  id: Bytes!
+  tokens: BigInt! # uint256
+  exchanger: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ChangedProtocolFee @entity(immutable: true) {
+  id: Bytes!
+  admin: Bytes! # address
+  newBasisRate: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ChangedValidatorIndex @entity(immutable: true) {
+  id: Bytes!
+  newIndex: BigInt! # uint256
+  priorIndex: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Deposited @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! # address
+  deposit: BigInt! # uint256
+  tokens: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type DisabledSafeguard @entity(immutable: true) {
+  id: Bytes!
+  admin: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type DistributedProtocolFee @entity(immutable: true) {
+  id: Bytes!
+  treasury: Bytes! # address
+  rewardedShares: BigInt! # uint256
+  protocolFees: BigInt! # uint256
+  priceRatio: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Initialized @entity(immutable: true) {
+  id: Bytes!
+  version: Int! # uint8
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NewSystemStakeLimit @entity(immutable: true) {
+  id: Bytes!
+  newLimit: BigInt! # uint256
+  priorLimit: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OwnershipTransferred @entity(immutable: true) {
+  id: Bytes!
+  previousOwner: Bytes! # address
+  newOwner: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Paused @entity(immutable: true) {
+  id: Bytes!
+
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ReenabledSafeguard @entity(immutable: true) {
+  id: Bytes!
+  admin: Bytes! # address
+  newLimit: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RemovedValidator @entity(immutable: true) {
+  id: Bytes!
+  validatorRemoved: Bytes! # address
+  admin: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ReplacedValidator @entity(immutable: true) {
+  id: Bytes!
+  newValidator: Bytes! # address
+  oldValidator: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Unpaused @entity(immutable: true) {
+  id: Bytes!
+
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type UpdatedPriceRatio @entity(immutable: true) {
+  id: Bytes!
+  updatedRatio: BigInt! # uint256
+  accumulatedRewards: BigInt! # uint256
+  totalSupply: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Upgraded @entity(immutable: true) {
+  id: Bytes!
+  implementation: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Withdrawn @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! # address
+  tokens: BigInt! # uint256
+  rate: BigInt! # uint256
+  payout: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
