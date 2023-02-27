@@ -24,7 +24,7 @@ type LiquidStaking @entity {
   fuseExited: BigDecimal!
   fuseExitedUSD: BigDecimal!
 
-  updatedAt: BigInt!
+  # updatedAt: BigInt!
 
   usersCount: BigInt!
   validatorsCount: BigInt!
@@ -57,7 +57,6 @@ type StakedFuse @entity {
 type User @entity {
   id: ID!
 
-  address: Bytes!
   stakedFuseBalance: BigDecimal!
   liquidStaking: LiquidStaking!
   fuseEntered: BigDecimal!
@@ -100,7 +99,7 @@ type History @entity {
   fuseExited: BigDecimal!
   fuseExitedUSD: BigDecimal!
 
-  updatedAt: BigInt!
+  # updatedAt: BigInt!
 
   usersCount: BigInt!
   validatorsCount: BigInt!

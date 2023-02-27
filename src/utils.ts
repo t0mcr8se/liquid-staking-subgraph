@@ -81,7 +81,7 @@ function createLiquidStaking(block: ethereum.Block): LiquidStaking {
     ls.fuseExited = BIG_DECIMAL_ZERO
     ls.fuseExitedUSD = BIG_DECIMAL_ZERO
 
-    ls.updatedAt = block.timestamp
+    // ls.updatedAt = block.timestamp
 
     ls.usersCount = BigInt.fromI32(0)
     ls.validatorsCount = BigInt.fromI32(0)
@@ -142,6 +142,8 @@ function createHistory(day: BigInt): History {
     history.protocolFeeBasis = ls.protocolFeeBasis
     history.isPaused = ls.isPaused
     history.isSafeguardEnabled = ls.isSafeguardEnabled
+    history.admin = ls.admin
+    history.systemStakeLimit = ls.systemStakeLimit
 
     return history
 
