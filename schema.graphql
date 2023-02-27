@@ -1,179 +1,129 @@
-type AddedValidator @entity(immutable: true) {
-  id: Bytes!
-  admin: Bytes! # address
-  validatorAdded: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+type LiquidStaking @entity {
+  id: ID!
+  
+  # Staked Fuse token address
+  sFuse: StakedFuse!
+
+  ratio: BigInt!
+
+  totalStaked: BigDecimal!
+  totalStakedUSD: BigDecimal!
+
+  sFuseMinted: BigDecimal!
+  sFuseBurned: BigDecimal!
+
+  totalRewards: BigDecimal!
+  totalRewardsUSD: BigDecimal!
+
+  totalFees: BigDecimal!
+  totalFeesUSD: BigDecimal!
+
+  fuseEntered: BigDecimal!
+  fuseEnteredUSD: BigDecimal!
+
+  fuseExited: BigDecimal!
+  fuseExitedUSD: BigDecimal!
+
+  updatedAt: BigInt!
+
+  usersCount: BigInt!
+  validatorsCount: BigInt!
+
+  users: [User!]! @derivedFrom(field: "liquidStaking")
+  validators: [Validator!]! @derivedFrom(field: "liquidStaking")
+
+  protocolFeeBasis: BigInt!
+
+  isPaused: Boolean!
+  isSafeguardEnabled: Boolean!
+
+  admin: Bytes!
+
+  systemStakeLimit: BigInt!
 }
 
-type AdminChanged @entity(immutable: true) {
-  id: Bytes!
-  previousAdmin: Bytes! # address
-  newAdmin: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+type StakedFuse @entity {
+  id: ID!
+
+  address: Bytes!
+
+  decimals: Int!
+  name: String!
+  symbol: String!
+  
+  totalSupply: BigInt!
 }
 
-type BeaconUpgraded @entity(immutable: true) {
-  id: Bytes!
-  beacon: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+type User @entity {
+  id: ID!
+
+  address: Bytes!
+  stakedFuseBalance: BigDecimal!
+  liquidStaking: LiquidStaking!
+  fuseEntered: BigDecimal!
+  fuseExited: BigDecimal!
 }
 
-type Burned @entity(immutable: true) {
-  id: Bytes!
-  tokens: BigInt! # uint256
-  exchanger: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+type Validator @entity {
+  id: ID!
+
+  totalFuseDelegated: BigDecimal!
+  addedAt: BigInt!
+  liquidStaking: LiquidStaking!
+  # index: BigInt!
+  active: Boolean!
 }
 
-type ChangedProtocolFee @entity(immutable: true) {
-  id: Bytes!
-  admin: Bytes! # address
-  newBasisRate: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+type History @entity {
+  id: ID!
 
-type ChangedValidatorIndex @entity(immutable: true) {
-  id: Bytes!
-  newIndex: BigInt! # uint256
-  priorIndex: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+  date: BigInt!
+  sFuse: StakedFuse!
 
-type Deposited @entity(immutable: true) {
-  id: Bytes!
-  user: Bytes! # address
-  deposit: BigInt! # uint256
-  tokens: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+  ratio: BigInt!
 
-type DisabledSafeguard @entity(immutable: true) {
-  id: Bytes!
-  admin: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+  totalStaked: BigDecimal!
+  totalStakedUSD: BigDecimal!
 
-type DistributedProtocolFee @entity(immutable: true) {
-  id: Bytes!
-  treasury: Bytes! # address
-  rewardedShares: BigInt! # uint256
-  protocolFees: BigInt! # uint256
-  priceRatio: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+  sFuseMinted: BigDecimal!
+  sFuseBurned: BigDecimal!
 
-type Initialized @entity(immutable: true) {
-  id: Bytes!
-  version: Int! # uint8
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+  totalRewards: BigDecimal!
+  totalRewardsUSD: BigDecimal!
 
-type NewSystemStakeLimit @entity(immutable: true) {
-  id: Bytes!
-  newLimit: BigInt! # uint256
-  priorLimit: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+  totalFees: BigDecimal!
+  totalFeesUSD: BigDecimal!
 
-type OwnershipTransferred @entity(immutable: true) {
-  id: Bytes!
-  previousOwner: Bytes! # address
-  newOwner: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+  fuseEntered: BigDecimal!
+  fuseEnteredUSD: BigDecimal!
 
-type Paused @entity(immutable: true) {
-  id: Bytes!
+  fuseExited: BigDecimal!
+  fuseExitedUSD: BigDecimal!
 
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+  updatedAt: BigInt!
 
-type ReenabledSafeguard @entity(immutable: true) {
-  id: Bytes!
-  admin: Bytes! # address
-  newLimit: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+  usersCount: BigInt!
+  validatorsCount: BigInt!
 
-type RemovedValidator @entity(immutable: true) {
-  id: Bytes!
-  validatorRemoved: Bytes! # address
-  admin: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+  protocolFeeBasis: BigInt!
 
-type ReplacedValidator @entity(immutable: true) {
-  id: Bytes!
-  newValidator: Bytes! # address
-  oldValidator: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+  isPaused: Boolean!
+  isSafeguardEnabled: Boolean!
 
-type Unpaused @entity(immutable: true) {
-  id: Bytes!
+  admin: Bytes!
 
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+  systemStakeLimit: BigInt! 
+  # TODO: add some day specific data such as volume and fees
 
-type UpdatedPriceRatio @entity(immutable: true) {
-  id: Bytes!
-  updatedRatio: BigInt! # uint256
-  accumulatedRewards: BigInt! # uint256
-  totalSupply: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+  fuseStakedDay: BigDecimal!
+  fuseStakedDayUSD: BigDecimal!
 
-type Upgraded @entity(immutable: true) {
-  id: Bytes!
-  implementation: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+  fuseUnstakedDay: BigDecimal!
+  fuseUnstakedDayUSD: BigDecimal!
 
-type Withdrawn @entity(immutable: true) {
-  id: Bytes!
-  user: Bytes! # address
-  tokens: BigInt! # uint256
-  rate: BigInt! # uint256
-  payout: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+  
+  fuseRewardsDay: BigDecimal!
+  fuseRewardsDayUSD: BigDecimal!
+  adminFeesDay: BigDecimal!
+  adminFeesDayUSD: BigDecimal!
 }
