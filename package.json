@@ -4,10 +4,10 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ t0mcr8se/fuse-liquid-staking",
-    "create-local": "graph create --node http://localhost:8020/ t0mcr8se/fuse-liquid-staking",
-    "remove-local": "graph remove --node http://localhost:8020/ t0mcr8se/fuse-liquid-staking",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 t0mcr8se/fuse-liquid-staking",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ voltfinance/fuse-liquid-staking",
+    "create-local": "graph create --node http://localhost:8020/ voltfinance/fuse-liquid-staking",
+    "remove-local": "graph remove --node http://localhost:8020/ voltfinance/fuse-liquid-staking",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 voltfinance/fuse-liquid-staking",
     "test": "graph test"
   },
   "dependencies": {
