@@ -19,12 +19,20 @@ import {
   Unpaused as UnpausedEvent,
   UpdatedPriceRatio as UpdatedPriceRatioEvent,
   Upgraded as UpgradedEvent,
-  Withdrawn as WithdrawnEvent
+  Withdrawn as WithdrawnEvent,
 } from "../generated/LiquidStakingProxy/LiquidStakingProxy"
+import { Transfer as TransferEvent } from "../generated/StakedFuse/StakedFuse"
 import {
-  Transfer as TransferEvent
-} from "../generated/StakedFuse/StakedFuse"
-import { getFusePrice, getLiquidStakingContract, getOrCreateHistory, getOrCreateLiquidStaking, getOrCreateUser, getOrCreateValidator, ZERO_ADDRESS } from "./utils"
+  getFusePrice,
+  getLiquidStakingContract,
+  getOrCreateHistory,
+  getOrCreateLiquidStaking,
+  getOrCreateUser,
+  getOrCreateValidator,
+  updateDayData,
+  ZERO_ADDRESS,
+} from "./utils"
+import { Deposit, Withdraw } from "../generated/schema"
 
 export function handleAddedValidator(event: AddedValidatorEvent): void {
   let validator = getOrCreateValidator(event.params.validatorAdded, event.block)
@@ -50,19 +58,14 @@ export function handleChangedProtocolFee(event: ChangedProtocolFeeEvent): void {
   history.protocolFeeBasis = event.params.newBasisRate
 }
 
-export function handleChangedValidatorIndex(
-  event: ChangedValidatorIndexEvent
-): void {
+export function handleChangedValidatorIndex(event: ChangedValidatorIndexEvent): void {
   // const lsContract = getLiquidStakingContract()
   // let validatorA = lsContract.getValidatorAt(event.params.newIndex)
   // let validatorB = lsContract.getValidatorAt(event.params.priorIndex)
-
   // let validatorAEntity = getOrCreateValidator(validatorA, event.block)
   // let validatorBEntity = getOrCreateValidator(validatorB, event.block)
-
   // validatorAEntity.index = event.params.newIndex
   // validatorBEntity.index = event.params.priorIndex
-
   // validatorAEntity.save()
   // validatorBEntity.save()
 }
@@ -78,9 +81,7 @@ export function handleDisabledSafeguard(event: DisabledSafeguardEvent): void {
   history.save()
 }
 
-export function handleDistributedProtocolFee(
-  event: DistributedProtocolFeeEvent
-): void {
+export function handleDistributedProtocolFee(event: DistributedProtocolFeeEvent): void {
   let ls = getOrCreateLiquidStaking()
   let history = getOrCreateHistory(event.block)
   let fusePrice = getFusePrice()
@@ -90,7 +91,7 @@ export function handleDistributedProtocolFee(
 
   ls.totalFees = ls.totalFees.plus(fees)
   ls.totalFeesUSD = ls.totalFeesUSD.plus(fees.times(fusePrice))
-  
+
   history.totalFees = ls.totalFees
   history.totalFeesUSD = ls.totalFeesUSD
 
@@ -110,9 +111,7 @@ export function handleDistributedProtocolFee(
   history.save()
 }
 
-export function handleNewSystemStakeLimit(
-  event: NewSystemStakeLimitEvent
-): void {
+export function handleNewSystemStakeLimit(event: NewSystemStakeLimitEvent): void {
   let ls = getOrCreateLiquidStaking()
   let history = getOrCreateHistory(event.block)
 
@@ -215,11 +214,18 @@ export function handleTransfer(event: TransferEvent): void {
 }
 
 export function handleDeposited(event: DepositedEvent): void {
+  let entity = new Deposit(event.transaction.hash)
+  entity.user = event.params.user
+  entity.value = event.params.deposit
+  entity.blockNumber = event.block.number
+  entity.save()
+  updateDayData(event)
+
   let user = getOrCreateUser(event.params.user, event.block)
   let ls = getOrCreateLiquidStaking()
   let history = getOrCreateHistory(event.block)
   let fusePrice = getFusePrice()
-  
+
   let sFuseAmount = event.params.tokens.toBigDecimal()
   let fuseAmount = event.params.deposit.toBigDecimal()
 
@@ -247,6 +253,13 @@ export function handleDeposited(event: DepositedEvent): void {
 }
 
 export function handleWithdrawn(event: WithdrawnEvent): void {
+  let entity = new Withdraw(event.transaction.hash)
+  entity.user = event.params.user
+  entity.value = event.params.payout
+  entity.blockNumber = event.block.number
+  entity.save()
+
+  updateDayData(event)
   let user = getOrCreateUser(event.params.user, event.block)
   let ls = getOrCreateLiquidStaking()
   let history = getOrCreateHistory(event.block)

@@ -113,6 +113,8 @@ type History @entity {
 
   systemStakeLimit: BigInt! 
   # TODO: add some day specific data such as volume and fees
+  volumeDay: BigDecimal!
+  volumeDayUSD: BigDecimal!
 
   fuseStakedDay: BigDecimal!
   fuseStakedDayUSD: BigDecimal!
@@ -125,4 +127,31 @@ type History @entity {
   fuseRewardsDayUSD: BigDecimal!
   adminFeesDay: BigDecimal!
   adminFeesDayUSD: BigDecimal!
+}
+
+type DayData @entity {
+  id: ID!
+  volume:BigDecimal!
+  blockNumber:BigInt!
+  balance: BigDecimal!
+  balanceUSD: BigDecimal!
+  volumeUSD:BigDecimal!
+  timestamp:BigInt!
+  priceUSD:BigDecimal!
+
+}
+
+type Deposit @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! # address
+  blockNumber: BigInt!
+  value: BigInt! # uint256
+
+}
+
+type Withdraw @entity(immutable: true) {
+   id: Bytes!
+  user: Bytes! # address
+  blockNumber: BigInt!
+  value: BigInt! # uint256
 }
